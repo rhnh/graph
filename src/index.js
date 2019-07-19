@@ -11,20 +11,44 @@ funcs.drawVerticalLine(context, positiveNumbers);
 funcs.vLineMakers(context, positiveNumbers);
 funcs.hLineMakers(context, positiveNumbers);
 context.save();
-// funcs.plot(
-//   context,
-//   numbers,
-//   parabola,
-//   constants.xMid,
-//   constants.yMid,
-//   1,
-//   "green"
-// );
-context.restore();
-context.save();
-funcs.plot(context, numbers, sin, constants.xMid, constants.yMid, 1, "#e6844f");
-context.restore();
+
+funcs.plot(
+  context,
+  numbers,
+  parabola,
+  constants.xMid,
+  constants.yMid,
+  constants.GAP,
+  "green"
+);
+funcs.plot(
+  context,
+  numbers,
+  sin,
+  constants.xMid,
+  constants.yMid,
+  constants.GAP,
+  "red"
+);
+funcs.plot(
+  context,
+  numbers,
+  Math.cos,
+  constants.xMid,
+  constants.yMid,
+  constants.GAP,
+  "blue"
+);
+const f = x => 2 * x * x * x + 3 * x + 3;
+funcs.plot(
+  context,
+  numbers,
+  f,
+  constants.xMid,
+  constants.yMid,
+  constants.GAP,
+  "blue"
+);
+// funcs.labelX(context, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
 funcs.drawXAxes(context);
 funcs.drawYAxes(context);
-
-// funcs.labelX(context, [0, 1, 2, 3, 4, 5, 6, 7, 8]);

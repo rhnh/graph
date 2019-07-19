@@ -1,8 +1,10 @@
 export function plot(context, points, fn, tx, ty, gap, color) {
   context.save();
+  context.beginPath();
   context.translate(tx, ty);
+  context.moveTo(points[0], fn(points[0]));
   points.map(x => {
-    context.lineTo(x, -20 * fn(x / 20));
+    context.lineTo(x, -gap * fn(x / gap));
   });
   context.lineWidth = 2;
   context.strokeStyle = color;
