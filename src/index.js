@@ -6,11 +6,9 @@ import "./style.css";
 
 import { parabola, sin } from "./func";
 
-funcs.drawHorizontalLine(context, positiveNumbers);
-funcs.drawVerticalLine(context, positiveNumbers);
-funcs.vLineMakers(context, positiveNumbers);
-funcs.hLineMakers(context, positiveNumbers);
-context.save();
+funcs.grid({ context, positiveNumbers });
+funcs.scale({ context, positiveNumbers });
+funcs.axis(context);
 
 funcs.plot(
   context,
@@ -21,6 +19,7 @@ funcs.plot(
   constants.GAP,
   "green"
 );
+
 funcs.plot(
   context,
   numbers,
@@ -30,6 +29,7 @@ funcs.plot(
   constants.GAP,
   "red"
 );
+
 funcs.plot(
   context,
   numbers,
@@ -39,7 +39,9 @@ funcs.plot(
   constants.GAP,
   "blue"
 );
-const f = x => 2 * x * x * x + 3 * x + 3;
+
+const f = x => 2 * x * x * x - 0.9 * x;
+
 funcs.plot(
   context,
   numbers,
@@ -47,8 +49,6 @@ funcs.plot(
   constants.xMid,
   constants.yMid,
   constants.GAP,
-  "blue"
+  "grey"
 );
 // funcs.labelX(context, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
-funcs.drawXAxes(context);
-funcs.drawYAxes(context);
