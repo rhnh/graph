@@ -1,16 +1,16 @@
 import { context } from "./display";
-import * as funcs from "./utils";
+import * as utils from "./utils";
 import { numbers, positiveNumbers } from "./constants";
 import * as constants from "./constants";
 import "./style.css";
 
 import { parabola, sin } from "./func";
 
-funcs.grid({ context, positiveNumbers });
-funcs.scale({ context, positiveNumbers });
-funcs.axis(context);
+utils.grid({ context, positiveNumbers });
+utils.scale({ context, positiveNumbers });
+utils.axis(context);
 
-funcs.plot(
+utils.plot(
   context,
   numbers,
   parabola,
@@ -20,7 +20,7 @@ funcs.plot(
   "green"
 );
 
-funcs.plot(
+utils.plot(
   context,
   numbers,
   sin,
@@ -30,7 +30,7 @@ funcs.plot(
   "red"
 );
 
-funcs.plot(
+utils.plot(
   context,
   numbers,
   Math.cos,
@@ -42,7 +42,7 @@ funcs.plot(
 
 const f = x => 2 * x * x * x - 0.9 * x;
 
-funcs.plot(
+utils.plot(
   context,
   numbers,
   f,
