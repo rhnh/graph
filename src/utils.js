@@ -1,4 +1,5 @@
-function drawHorizontalLine({ context, positiveNumbers }) {
+//Horizontal Lines
+function hLines({ context, positiveNumbers }) {
   context.save();
   context.beginPath();
   context.lineWidth = 1;
@@ -11,7 +12,8 @@ function drawHorizontalLine({ context, positiveNumbers }) {
   return { context, positiveNumbers };
 }
 
-function drawVerticalLine({ context, positiveNumbers }) {
+//Vertical Lines
+function vLines({ context, positiveNumbers }) {
   context.save();
   context.beginPath();
   positiveNumbers.map(x => {
@@ -24,8 +26,24 @@ function drawVerticalLine({ context, positiveNumbers }) {
   context.restore();
   return { context, positiveNumbers };
 }
-
-function vLineMakers({ context, positiveNumbers }) {
+// Vertical lines with gap
+function vGapLines({ context, positiveNumbers }) {
+  context.save();
+  context.beginPath();
+  context.lineWidth = 2;
+  context.setLineDash([5, 1]);
+  positiveNumbers.map(x => {
+    x *= 20;
+    if (x % 8 === 0) {
+      drawLine(context, 20 + x, 0, 20 + x, context.canvas.height, "#666");
+    }
+  });
+  context.restore();
+  context.closePath();
+  return { context, positiveNumbers };
+}
+// Vertical lines with gap
+function vText({ context, positiveNumbers }) {
   context.save();
   context.beginPath();
   context.lineWidth = 2;
@@ -34,7 +52,6 @@ function vLineMakers({ context, positiveNumbers }) {
     x *= 20;
     if (x % 8 === 0) {
       context.fillStyle = "red";
-      drawLine(context, 20 + x, 0, 20 + x, context.canvas.height, "#666");
       context.fillText(
         `${(i - 14) / 2}`,
         20 + x,
@@ -42,14 +59,30 @@ function vLineMakers({ context, positiveNumbers }) {
       );
       context.textAlign = "center";
     }
-    context.width;
   });
   context.restore();
   context.closePath();
   return { context, positiveNumbers };
 }
+// Horizontal gap lines
+function hGapLines({ context, positiveNumbers }) {
+  context.save();
+  context.beginPath();
+  context.lineWidth = 2;
+  context.setLineDash([5, 1]);
+  positiveNumbers.map(x => {
+    x *= 20;
+    if (x % 8 === 0) {
+      context.fillStyle = "red";
+      drawLine(context, 0, 20 + x, context.canvas.width, 20 + x, "#666");
+    }
+  });
+  context.closePath();
+  context.restore();
+  return { context, positiveNumbers };
+}
 
-function hLineMakers({ context, positiveNumbers }) {
+function hText({ context, positiveNumbers }) {
   context.save();
   context.beginPath();
   context.lineWidth = 2;
@@ -58,7 +91,6 @@ function hLineMakers({ context, positiveNumbers }) {
     x *= 20;
     if (x % 8 === 0) {
       context.fillStyle = "red";
-      drawLine(context, 0, 20 + x, context.canvas.width, 20 + x, "#666");
       context.fillText(
         `${(i - 14) / -2}`,
         context.canvas.height / 2 + 5,
@@ -66,14 +98,13 @@ function hLineMakers({ context, positiveNumbers }) {
       );
       context.textAlign = "center";
     }
-    context.width;
   });
   context.closePath();
   context.restore();
   return { context, positiveNumbers };
 }
 
-function drawXAxes(context) {
+function xAxes(context) {
   context.save();
   context.lineWidth = 2;
   drawLine(
@@ -89,7 +120,7 @@ function drawXAxes(context) {
   return context;
 }
 
-function drawYAxes(context) {
+function yAxes(context) {
   context.save();
   context.lineWidth = 2;
   drawLine(
@@ -122,31 +153,37 @@ function compose(a, b) {
 }
 
 export const grid = compose(
-  drawHorizontalLine,
-  drawVerticalLine
+  hLines,
+  vLines
 );
 
 export const scale = compose(
-  hLineMakers,
-  vLineMakers
+  hGapLines,
+  vGapLines
+);
+export const text = compose(
+  hText,
+  vText
 );
 
 export const axis = compose(
-  drawYAxes,
-  drawXAxes
+  yAxes,
+  xAxes
 );
 
-export function plot(context, points, fn, tx, ty, gap, color) {
-  context.save();
-  context.beginPath();
-  context.translate(tx, ty);
-  context.moveTo(points[0], fn(points[0]));
-  points.map(x => {
-    context.lineTo(x, -gap * fn(x / gap));
-  });
-  context.lineWidth = 2;
-  context.strokeStyle = color;
-  context.stroke();
-  context.closePath();
-  context.restore();
+export function plot(context, points, tx, ty, gap) {
+  return function getPlot(fn, color = "blue") {
+    context.save();
+    context.beginPath();
+    context.translate(tx, ty);
+    context.moveTo(points[0], fn(points[0]));
+    points.map(x => {
+      context.lineTo(x, -gap * fn(x / gap));
+    });
+    context.lineWidth = 2;
+    context.strokeStyle = color;
+    context.stroke();
+    context.closePath();
+    context.restore();
+  };
 }
