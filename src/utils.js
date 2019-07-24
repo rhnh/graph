@@ -1,146 +1,129 @@
-import * as canvas from "./constants";
+import * as settings from "./constants";
 
 //Horizontal Lines
-function hLines({ context, positiveNumbers }) {
-  context.save();
-  context.beginPath();
-  context.lineWidth = 1;
-  positiveNumbers.map(x => {
-    context.save();
-    x *= canvas.GRID_GAP;
-    drawLine(context, 0, x, canvas.WIDTH + canvas.GRID_GAP, x, "#666");
+const hLines = ({ context, positiveNumbers }) =>
+  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+    positiveNumbers.map(x => {
+      x *= settings.GRID_GAP;
+      drawLine(context, 0, x, settings.WIDTH + settings.GRID_GAP, x, "#999");
+    });
   });
-  context.restore();
-  return { context, positiveNumbers };
-}
 
 //Vertical Lines
-function vLines({ context, positiveNumbers }) {
-  context.save();
-  context.beginPath();
-  positiveNumbers.map(x => {
-    x *= canvas.GRID_GAP;
-    context.save();
-    drawLine(context, x, 0, x, canvas.HEIGHT, "#666");
-    context.restore();
+const vLines = ({ context, positiveNumbers }) =>
+  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+    positiveNumbers.map(x => {
+      x *= settings.GRID_GAP;
+      drawLine(context, x, 0, x, settings.HEIGHT, "#999");
+    });
   });
-  context.closePath();
-  context.restore();
-  return { context, positiveNumbers };
-}
-
-// Vertical lines with gap
-function vGapLines({ context, positiveNumbers }) {
-  context.save();
-  context.beginPath();
-  context.lineWidth = 2;
-  context.setLineDash([5, 1]);
-  positiveNumbers.map(x => {
-    x *= canvas.GRID_GAP;
-    if (x % 8 === 0) {
-      drawLine(
-        context,
-        canvas.GRID_GAP + x,
-        0,
-        canvas.GRID_GAP + x,
-        canvas.HEIGHT,
-        "#666"
-      );
-    }
-  });
-  context.restore();
-  context.closePath();
-  return { context, positiveNumbers };
-}
-
-// Vertical lines with gap
-function vText({ context, positiveNumbers }) {
-  context.save();
-  context.beginPath();
-  context.lineWidth = 2;
-  context.setLineDash([5, 1]);
-  const magicNumber = 14; //Moves the ZERO to the center and starts with -7
-  positiveNumbers.map((x, i) => {
-    x *= canvas.GRID_GAP;
-    if (x % 8 === 0) {
-      context.fillStyle = "red";
-      context.fillText(
-        `${(i - magicNumber) / 2}`,
-        canvas.GRID_GAP + x,
-        canvas.yMid - 5
-      );
-      context.textAlign = "center";
-    }
-  });
-  context.restore();
-  context.closePath();
-  return { context, positiveNumbers };
-}
 
 // Horizontal gap lines
-function hGapLines({ context, positiveNumbers }) {
+const vGapLines = ({ context, positiveNumbers }) =>
+  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+    context.lineWidth = 2;
+    context.setLineDash([5, 1]);
+    positiveNumbers.map(x => {
+      x *= settings.GRID_GAP;
+      if (x % 8 === 0) {
+        drawLine(
+          context,
+          settings.GRID_GAP + x,
+          0,
+          settings.GRID_GAP + x,
+          settings.HEIGHT,
+          "#666"
+        );
+      }
+    });
+  });
+
+// Horizontal gap lines
+const hGapLines = ({ context, positiveNumbers }) =>
+  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+    context.lineWidth = 2;
+    context.setLineDash([5, 1]);
+    positiveNumbers.map(x => {
+      x *= settings.GRID_GAP;
+      if (x % 8 === 0) {
+        context.fillStyle = "red";
+        drawLine(
+          context,
+          0,
+          settings.GRID_GAP + x,
+          settings.WIDTH,
+          settings.GRID_GAP + x,
+          "#666"
+        );
+      }
+    });
+  });
+
+function gridSetting(context, positiveNumbers, fn) {
   context.save();
   context.beginPath();
-  context.lineWidth = 2;
-  context.setLineDash([5, 1]);
-  positiveNumbers.map(x => {
-    x *= canvas.GRID_GAP;
-    if (x % 8 === 0) {
-      context.fillStyle = "red";
-      drawLine(
-        context,
-        0,
-        canvas.GRID_GAP + x,
-        canvas.WIDTH,
-        canvas.GRID_GAP + x,
-        "#666"
-      );
-    }
-  });
+  fn(context, positiveNumbers);
   context.closePath();
   context.restore();
   return { context, positiveNumbers };
 }
 
-function hText({ context, positiveNumbers }) {
-  context.save();
-  context.beginPath();
-  context.lineWidth = 2;
-  context.setLineDash([5, 1]);
-  const magicNumber = 14; //Moves the ZERO to the center and starts with -7
-  positiveNumbers.map((x, i) => {
-    x *= canvas.GRID_GAP;
-    if (x % 8 === 0) {
-      context.fillStyle = "red";
-      context.fillText(
-        `${(i - magicNumber) / -2}`,
-        canvas.yMid + 5,
-        canvas.GRID_GAP + x
-      );
-      context.textAlign = "center";
-    }
+const hText = ({ context, positiveNumbers }) =>
+  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+    const magicNumber = 14; // number that shift zero to the center
+
+    positiveNumbers.map((x, i) => {
+      x *= settings.GRID_GAP;
+      if (x % 8 === 0) {
+        context.fillStyle = "red";
+        context.fillText(
+          `${(i - magicNumber) / 2}`,
+          settings.GRID_GAP + x,
+          settings.yMid - 5
+        );
+        context.textAlign = "center";
+      }
+    });
   });
-  context.closePath();
-  context.restore();
-  return { context, positiveNumbers };
+
+const vText = ({ context, positiveNumbers }) =>
+  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+    const magicNumber = 14; // number that shift zero to the center
+
+    positiveNumbers.map((x, i) => {
+      x *= settings.GRID_GAP;
+      if (x % 8 === 0) {
+        context.fillStyle = "red";
+        context.fillText(
+          `${(i - magicNumber) / -2}`,
+          settings.yMid + 5,
+          settings.GRID_GAP + x
+        );
+        context.textAlign = "center";
+      }
+    });
+  });
+
+function drawAxes(context) {
+  return function axes(fn) {
+    context.save();
+    context.lineWidth = 2;
+    fn(context);
+    context.closePath();
+    context.restore();
+    return context;
+  };
 }
 
-function xAxes(context) {
-  context.save();
-  context.lineWidth = 2;
-  drawLine(context, canvas.xMid, 0, canvas.xMid, canvas.HEIGHT, "black");
-  context.closePath();
-  context.restore();
-  return context;
-}
+const xAxes = context =>
+  drawAxes(context)(() =>
+    drawLine(context, settings.xMid, 0, settings.xMid, settings.HEIGHT, "blue")
+  );
 
-function yAxes(context) {
-  context.save();
-  context.lineWidth = 2;
-  drawLine(context, 0, canvas.xMid, canvas.HEIGHT, canvas.xMid, "black");
-  context.restore();
-  return context;
-}
+const yAxes = context =>
+  drawAxes(context)(() =>
+    drawLine(context, 0, settings.xMid, settings.HEIGHT, settings.xMid, "blue")
+  );
 
 function drawLine(context, x0, y0, xn, yn, color) {
   context.save();
@@ -179,7 +162,7 @@ export const axis = compose(
 );
 
 export function plot(context, points, tx, ty, gap) {
-  return function getPlot(fn, color = "blue") {
+  return function getPlot(fn, color = "black") {
     context.save();
     context.beginPath();
     context.translate(tx, ty);
