@@ -1,5 +1,14 @@
 import * as settings from "./constants";
 
+function gridSetting(context, positiveNumbers, fn) {
+  context.save();
+  context.beginPath();
+  fn(context, positiveNumbers);
+  context.closePath();
+  context.restore();
+  return { context, positiveNumbers };
+}
+
 //Horizontal Lines
 const hLines = ({ context, positiveNumbers }) =>
   gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
@@ -18,7 +27,7 @@ const vLines = ({ context, positiveNumbers }) =>
     });
   });
 
-// Horizontal gap lines
+// Vertical gap lines
 const vGapLines = ({ context, positiveNumbers }) =>
   gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
     context.lineWidth = 2;
@@ -59,19 +68,9 @@ const hGapLines = ({ context, positiveNumbers }) =>
     });
   });
 
-function gridSetting(context, positiveNumbers, fn) {
-  context.save();
-  context.beginPath();
-  fn(context, positiveNumbers);
-  context.closePath();
-  context.restore();
-  return { context, positiveNumbers };
-}
-
 const hText = ({ context, positiveNumbers }) =>
   gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
     const magicNumber = 14; // number that shift zero to the center
-
     positiveNumbers.map((x, i) => {
       x *= settings.GRID_GAP;
       if (x % 8 === 0) {
