@@ -1,6 +1,7 @@
 export const WIDTH = 600;
 export const HEIGHT = 600;
 export const GAP = 40;
+export const GRID_GAP = 20;
 export const xMid = WIDTH / 2;
 export const yMid = HEIGHT / 2;
 

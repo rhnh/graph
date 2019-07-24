@@ -1,10 +1,12 @@
-import { context } from "./display";
+import { canvasManager } from "./canvas_manager";
 import * as utils from "./utils";
 import { numbers, positiveNumbers } from "./constants";
 import * as constants from "./constants";
-import { parabola, sin, cos, cosh, hypot } from "./func";
+import { parabola, sin, cos, hypot } from "./func";
 
 import "./style.css";
+
+let context = canvasManager("canvas");
 
 utils.grid({ context, positiveNumbers });
 utils.scale({ context, positiveNumbers });
@@ -16,8 +18,7 @@ let plot = utils.plot(
   numbers,
   constants.xMid,
   constants.yMid,
-  constants.GAP,
-  "green"
+  constants.GAP
 );
 
 plot(parabola);
