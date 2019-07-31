@@ -1,4 +1,4 @@
-import { canvasManager } from "./canvas_manager";
+import { canvasManager, inputBox, btnPlot } from "./render";
 import * as utils from "./utils";
 import { numbers, positiveNumbers } from "./constants";
 import * as constants from "./constants";
@@ -20,9 +20,14 @@ let plot = utils.plot(
   constants.yMid,
   constants.GAP
 );
+btnPlot.addEventListener("click", () => {
+  let t = inputBox.value.toString();
 
-plot(parabola);
+  let f = new Function("x", "return " + t);
+  plot(f);
+});
+// plot(parabola);
 
-plot(sin, "green");
-plot(cos, "red");
-plot(hypot, "orange");
+// plot(sin, "green");
+// plot(cos, "red");
+// plot(hypot, "orange");
