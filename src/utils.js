@@ -116,12 +116,30 @@ function drawAxes(context) {
 
 const xAxes = context =>
   drawAxes(context)(() =>
-    drawLine(context, settings.xMid, 0, settings.xMid, settings.HEIGHT, "blue")
+    drawLine(
+      context,
+      settings.xMid,
+      0,
+      settings.xMid,
+      settings.HEIGHT,
+      "#0008ff"
+    )
   );
-
+const getColor = () =>
+  "#" +
+  Math.random()
+    .toString(16)
+    .slice(-6);
 const yAxes = context =>
   drawAxes(context)(() =>
-    drawLine(context, 0, settings.xMid, settings.HEIGHT, settings.xMid, "blue")
+    drawLine(
+      context,
+      0,
+      settings.xMid,
+      settings.HEIGHT,
+      settings.xMid,
+      "#0008ff"
+    )
   );
 
 function drawLine(context, x0, y0, xn, yn, color) {
@@ -161,7 +179,7 @@ export const axis = compose(
 );
 
 export function plot(context, points, tx, ty, gap) {
-  return function getPlot(fn, color = "black") {
+  return function getPlot(fn, color = getColor()) {
     context.save();
     context.beginPath();
     context.translate(tx, ty);

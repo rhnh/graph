@@ -16,21 +16,37 @@ export function canvasManager(canvasID) {
   return context;
 }
 
-export const btnPlot = document.createElement("button");
-btnPlot.setAttribute("id", "plot-button");
-btnPlot.setAttribute("value", "plot");
-btnPlot.setAttribute("name", "plot");
-btnPlot.innerHTML = "Plot";
-export const inputBox = document.createElement("input");
-inputBox.setAttribute("id", "plot-button");
-inputBox.setAttribute("value", "plot");
-inputBox.setAttribute("name", "plot");
-inputBox.innerHTML = "Plot";
-inputBox.onfocus = function() {
-  this.value = "";
-};
+export const btnPlot = createHtmlElement(
+  "button",
+  "plot-input",
+  "plot",
+  "plot",
+  "Plot"
+);
+
+export const inputBox = createHtmlElement(
+  "input",
+  "plot-input",
+  "plot",
+  "plot",
+  "Plot"
+);
+
 const side = document.createElement("div");
 side.setAttribute("id", "side");
 container.appendChild(side);
 side.appendChild(inputBox);
 side.appendChild(btnPlot);
+
+export function createHtmlElement(element, id, value, innerHtml) {
+  let elm = document.createElement(element);
+  elm.setAttribute("id", id);
+  elm.setAttribute("value", value);
+  elm.innerHTML = innerHtml;
+  const con = document.createElement("div");
+  const btn = document.createElement("button");
+  btn.innerHTML = "close";
+
+  con.appendChild(elm);
+  return elm;
+}
