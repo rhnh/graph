@@ -2,7 +2,7 @@ import { canvasManager, inputBox, btnPlot } from "./render";
 import * as utils from "./utils";
 import { numbers, positiveNumbers } from "./constants";
 import * as constants from "./constants";
-// import { parabola, sin, cos, hypot } from "./func";
+import { parabola, sin, cos, hypot } from "./func";
 
 import "./style.css";
 
@@ -20,20 +20,16 @@ let plot = utils.plot(
   constants.yMid,
   constants.GAP
 );
-const filter = str => {
-  var others = /[a-w|A-W]/;
-  if (str.match(others)) {
-    return false;
-  }
-  var letters = /(^([x]?)|[0-9]+[\\+\\*\\/\\-]+?[x]?)/g;
-  return str.match(letters);
-};
+
 btnPlot.addEventListener("click", () => {
   let t = inputBox.value.toString();
-  if (!filter(t)) {
-    console.info("failed");
+  if (!utils.filter(t)) {
+    // console.info("failed");
   } else {
-    console.info("passed");
+    // console.info("passed");
+    t = t.replace("sin", "Math.sin");
+    t = t.replace("cos", "Math.cos");
+    t = t.replace("hypot", "Math.hypot");
     let f = new Function("x", "return " + t);
     plot(f);
   }
@@ -44,5 +40,5 @@ inputBox.onfocus = function() {
 // plot(parabola);
 
 // plot(sin, "green");
-// plot(cos, "red");
-// plot(hypot, "orange");
+// // plot(cos, "red");
+// // plot(hypot, "orange");

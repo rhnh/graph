@@ -1,4 +1,5 @@
 import * as constants from "./constants";
+
 const container = document.createElement("div");
 export function canvasManager(canvasID) {
   container.setAttribute("id", "container");
@@ -20,14 +21,14 @@ export const btnPlot = createHtmlElement(
   "button",
   "plot-input",
   "plot",
-  "plot",
+  "Plot",
   "Plot"
 );
 
 export const inputBox = createHtmlElement(
   "input",
   "plot-input",
-  "plot",
+  "x*sin(x)",
   "plot",
   "Plot"
 );

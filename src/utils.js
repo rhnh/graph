@@ -194,3 +194,9 @@ export function plot(context, points, tx, ty, gap) {
     context.restore();
   };
 }
+
+export const filter = str => {
+  var letters = /\b(?:sin|cos|x|!alert|!function|!let)\b|([-+]?[0-9]*\.?[0-9]+[\/\+\-\*])+([-+]?[0-9]*\.?[0-9]+)/g;
+
+  return str.match(letters);
+};
