@@ -1,19 +1,18 @@
 import { canvasManager, inputBox, btnPlot } from "./render";
+import * as graph from "./graph";
 import * as utils from "./utils";
 import { numbers, positiveNumbers } from "./constants";
 import * as constants from "./constants";
-import { parabola, sin, cos, hypot } from "./func";
-
 import "./style.css";
 
 let context = canvasManager("canvas");
 
-utils.grid({ context, positiveNumbers });
-utils.scale({ context, positiveNumbers });
-utils.text({ context, positiveNumbers });
-utils.axis(context);
+graph.grid({ context, positiveNumbers });
+graph.scale({ context, positiveNumbers });
+graph.text({ context, positiveNumbers });
+graph.axis(context);
 
-let plot = utils.plot(
+let plot = graph.plot(
   context,
   numbers,
   constants.xMid,
@@ -22,17 +21,9 @@ let plot = utils.plot(
 );
 
 btnPlot.addEventListener("click", () => {
-  let t = inputBox.value.toString();
-  if (!utils.filter(t)) {
-    // console.info("failed");
-  } else {
-    // console.info("passed");
-    t = t.replace("sin", "Math.sin");
-    t = t.replace("cos", "Math.cos");
-    t = t.replace("hypot", "Math.hypot");
-    let f = new Function("x", "return " + t);
-    plot(f);
-  }
+  let str = inputBox.value.toString();
+  let f = utils.clean(str);
+  plot(f);
 });
 inputBox.onfocus = function() {
   this.value = "";
