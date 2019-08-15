@@ -1,6 +1,12 @@
 import * as settings from "./constants";
 
-function gridSetting(context, positiveNumbers, fn) {
+/**
+ * runs the callback against context and with positive number boundaries
+ * @param {HTMLCanvasElement} context
+ * @param {number} positiveNumbers
+ * @param {Function} fn
+ */
+function draw(context, positiveNumbers, fn) {
   context.save();
   context.beginPath();
   fn(context, positiveNumbers);
@@ -9,27 +15,38 @@ function gridSetting(context, positiveNumbers, fn) {
   return { context, positiveNumbers };
 }
 
-//Horizontal Lines
+/**
+ * passes context and array of positive numbers to draw() for drawing horizontal lines
+ * @param {context,number} param
+ */
 const hLines = ({ context, positiveNumbers }) =>
-  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+  draw(context, positiveNumbers, (context, positiveNumbers) => {
     positiveNumbers.map(x => {
       x *= settings.GRID_GAP;
       drawLine(context, 0, x, settings.WIDTH + settings.GRID_GAP, x, "#999");
     });
   });
 
-//Vertical Lines
+/**
+ * passes context and array of positive numbers to draw() for drawing Vertical Lines
+ * @param {context,number} param
+ * @returns {context,positiveNumbers}
+ */
 const vLines = ({ context, positiveNumbers }) =>
-  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+  draw(context, positiveNumbers, (context, positiveNumbers) => {
     positiveNumbers.map(x => {
       x *= settings.GRID_GAP;
       drawLine(context, x, 0, x, settings.HEIGHT, "#999");
     });
   });
 
-// Vertical gap lines
+/**
+ * passes context and array of positive numbers to draw() for drawing Vertical dashed gap Lines
+ * @param {context,number} param
+ * @returns {context,positiveNumbers}
+ */
 const vGapLines = ({ context, positiveNumbers }) =>
-  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+  draw(context, positiveNumbers, (context, positiveNumbers) => {
     context.lineWidth = 2;
     context.setLineDash([5, 1]);
     positiveNumbers.map(x => {
@@ -47,9 +64,13 @@ const vGapLines = ({ context, positiveNumbers }) =>
     });
   });
 
-// Horizontal gap lines
+/**
+ * passes context and array of positive numbers to draw() for drawing Horizontal dashed gap Lines
+ * @param {context,number} param
+ * @returns {context,positiveNumbers}
+ */
 const hGapLines = ({ context, positiveNumbers }) =>
-  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+  draw(context, positiveNumbers, (context, positiveNumbers) => {
     context.lineWidth = 2;
     context.setLineDash([5, 1]);
     positiveNumbers.map(x => {
@@ -68,13 +89,19 @@ const hGapLines = ({ context, positiveNumbers }) =>
     });
   });
 
+/**
+ * passes context and array of positive numbers to draw() for writing text horizontally
+ * @param {context,number} param
+ * @returns {context,positiveNumbers}
+ */
 const hText = ({ context, positiveNumbers }) =>
-  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+  draw(context, positiveNumbers, (context, positiveNumbers) => {
     const magicNumber = 14; // number that shift zero to the center
     positiveNumbers.map((x, i) => {
       x *= settings.GRID_GAP;
       if (x % 8 === 0) {
         context.fillStyle = "red";
+        context.font = "15px Arial";
         context.fillText(
           `${(i - magicNumber) / 2}`,
           settings.GRID_GAP + x,
@@ -85,14 +112,21 @@ const hText = ({ context, positiveNumbers }) =>
     });
   });
 
+/**
+ * passes context and array of positive numbers to draw() for writing text vertically
+ * @param {context,number} param
+ * @returns {context,positiveNumbers}
+ */
 const vText = ({ context, positiveNumbers }) =>
-  gridSetting(context, positiveNumbers, (context, positiveNumbers) => {
+  draw(context, positiveNumbers, (context, positiveNumbers) => {
     const magicNumber = 14; // number that shift zero to the center
 
     positiveNumbers.map((x, i) => {
       x *= settings.GRID_GAP;
       if (x % 8 === 0) {
         context.fillStyle = "red";
+        context.font = "15px Arial";
+
         context.fillText(
           `${(i - magicNumber) / -2}`,
           settings.yMid + 5,
@@ -130,6 +164,7 @@ const getColor = () =>
   Math.random()
     .toString(16)
     .slice(-6);
+
 const yAxes = context =>
   drawAxes(context)(() =>
     drawLine(

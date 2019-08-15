@@ -10,7 +10,8 @@
     "dev": "webpack -dw",
     "start": "webpack-dev-server --open",
     "format": "prettier --write \"src/**/*.{js,jsx,html}\"",
-    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet"
+    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
+    "docs": "jsdoc \"src/*.js\""
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -21,6 +22,7 @@
     "eslint": "^6.0.1",
     "eslint-plugin-prettier": "^3.1.0",
     "html-webpack-plugin": "^3.2.0",
+    "jsdoc": "^3.6.3",
     "jsdom": "^15.1.1",
     "prettier": "^1.18.2",
     "style-loader": "^0.23.1",
