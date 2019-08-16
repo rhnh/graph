@@ -2,9 +2,10 @@ import * as settings from "./constants";
 
 /**
  * runs the callback against context and with positive number boundaries
- * @param {HTMLCanvasElement} context
- * @param {number} positiveNumbers
- * @param {Function} fn
+ * @param {HTMLCanvasElement} context - Takes a context
+ * @param {number} positiveNumbers - An Array of numbers
+ * @param {Function} fn - the fn Callback which draws on canvas
+ * @returns{Object} an object, containing context and number for chaining
  */
 function draw(context, positiveNumbers, fn) {
   context.save();
@@ -17,7 +18,8 @@ function draw(context, positiveNumbers, fn) {
 
 /**
  * passes context and array of positive numbers to draw() for drawing horizontal lines
- * @param {context,number} param
+ * @param {Object} Object - Takes an number containing context and number passes to draw()
+ * @returns{Object} an object, containing context and number for chaining
  */
 const hLines = ({ context, positiveNumbers }) =>
   draw(context, positiveNumbers, (context, positiveNumbers) => {
@@ -29,8 +31,8 @@ const hLines = ({ context, positiveNumbers }) =>
 
 /**
  * passes context and array of positive numbers to draw() for drawing Vertical Lines
- * @param {context,number} param
- * @returns {context,positiveNumbers}
+ * @param {Object} Object - Takes an number containing context and number passes to draw()
+ * @returns{Object} an object, containing context and number for chaining
  */
 const vLines = ({ context, positiveNumbers }) =>
   draw(context, positiveNumbers, (context, positiveNumbers) => {
@@ -42,8 +44,8 @@ const vLines = ({ context, positiveNumbers }) =>
 
 /**
  * passes context and array of positive numbers to draw() for drawing Vertical dashed gap Lines
- * @param {context,number} param
- * @returns {context,positiveNumbers}
+ * @param {Object} Object - Takes an number containing context and number passes to draw()
+ * @returns{Object} an object, containing context and number for chaining
  */
 const vGapLines = ({ context, positiveNumbers }) =>
   draw(context, positiveNumbers, (context, positiveNumbers) => {
@@ -66,8 +68,8 @@ const vGapLines = ({ context, positiveNumbers }) =>
 
 /**
  * passes context and array of positive numbers to draw() for drawing Horizontal dashed gap Lines
- * @param {context,number} param
- * @returns {context,positiveNumbers}
+ * @param {Object} Object - Takes an number containing context and number passes to draw()
+ * @returns{Object} an object, containing context and number for chaining
  */
 const hGapLines = ({ context, positiveNumbers }) =>
   draw(context, positiveNumbers, (context, positiveNumbers) => {
@@ -91,8 +93,8 @@ const hGapLines = ({ context, positiveNumbers }) =>
 
 /**
  * passes context and array of positive numbers to draw() for writing text horizontally
- * @param {context,number} param
- * @returns {context,positiveNumbers}
+ * @param {Object} Object - Takes an number containing context and number passes to draw()
+ * @returns{Object} an object, containing context and number for chaining
  */
 const hText = ({ context, positiveNumbers }) =>
   draw(context, positiveNumbers, (context, positiveNumbers) => {
@@ -114,8 +116,8 @@ const hText = ({ context, positiveNumbers }) =>
 
 /**
  * passes context and array of positive numbers to draw() for writing text vertically
- * @param {context,number} param
- * @returns {context,positiveNumbers}
+ * @param {Object} Object - Takes an number containing context and number passes to draw()
+ * @returns{Object} an object, containing context and number for chaining
  */
 const vText = ({ context, positiveNumbers }) =>
   draw(context, positiveNumbers, (context, positiveNumbers) => {
